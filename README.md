@@ -16,7 +16,7 @@ To run from a gateway node in a CDH5.1+ cluster:
 
 e.g.
 
-user@ubuntu:~/workspace/montecarlorisk$ /asidev/spark-latest/bin/spark-submit --class com.cloudera.datascience.montecarlorisk.MonteCarloRisk --master local   target/montecarlo-risk-0.0.1-SNAPSHOT.jar   /home/user/workspace/montecarlorisk/data/instruments.csv 12000 8 /home/user/workspace/montecarlorisk/data/means.csv /home/user/workspace/montecarlorisk/data/covariances.csv
+user@ubuntu:~/workspace/montecarlorisk$ /asidev/spark-latest/bin/spark-submit --class com.cloudera.datascience.montecarlorisk.MonteCarloRisk --master local target/montecarlo-risk-0.0.1-SNAPSHOT.jar /Users/yfang/workspace/montecarlorisk/data/instruments.csv 12000 8 /Users/yfang/workspace/montecarlorisk/data/means.csv /Users/yfang/workspace/montecarlorisk/data/covariances.csv
 
 
 
