@@ -19,6 +19,8 @@ e.g.
 user@ubuntu:~/workspace/montecarlorisk$ /asidev/spark-latest/bin/spark-submit --class com.cloudera.datascience.montecarlorisk.MonteCarloRisk --master local target/montecarlo-risk-0.0.1-SNAPSHOT.jar /Users/yfang/workspace/montecarlorisk/data/instruments.csv 12000 8 /Users/yfang/workspace/montecarlorisk/data/means.csv /Users/yfang/workspace/montecarlorisk/data/covariances.csv
 
 
+/asidev/spark-latest/bin/spark-submit --class com.cloudera.datascience.montecarlorisk.MonteCarloRisk --master local target/montecarlo-risk-0.0.1-SNAPSHOT.jar /Users/yfang/workspace/asi/data/master_style_assignment 1200 8 /Users/yfang/workspace/asi/data/mean /Users/yfang/workspace/asi/data/covariance
+
 
 
 This will run the application in a single local process.  If the cluster is running a Spark standalone

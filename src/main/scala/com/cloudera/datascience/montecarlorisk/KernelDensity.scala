@@ -34,9 +34,9 @@ object KernelDensity {
       (x, y) => {
         var i = 0
         while (i < evaluationPoints.length) {
-          x._1(i) += normPdf(y, standardDeviation, logStandardDeviationPlusHalfLog2Pi,
-            evaluationPoints(i))
-          i += 1
+            x._1(i) += normPdf(y, standardDeviation, logStandardDeviationPlusHalfLog2Pi,
+              evaluationPoints(i))
+            i += 1
         }
         (x._1, i)
       },

@@ -66,30 +66,38 @@ object MonteCarloRisk {
     // Cache the results so that we don't recompute for both of the summarizations below
     trialsRdd.cache()
 
-    // Calculate VaR
-    val varFivePercent = trialsRdd.takeOrdered(math.max(numTrials / 20, 1)).last
-    println("VaR: " + varFivePercent)
+    trialsRdd.map(_.mkString(",")).saveAsTextFile("/tmp/trials1")
 
-    // Kernel density estimation
-    val domain = Range.Double(20.0, 60.0, .2).toArray
-    val densities: Array[Double] = KernelDensity.estimate(trialsRdd, 0.25, domain)
-    val pw = new PrintWriter("densities.csv")
-    for (point <- domain.zip(densities)) {
-      pw.println(point._1 + "," + point._2)
-    }
-    pw.close()
+//    // Calculate VaR
+//    val varFivePercent = trialsRdd.takeOrdered(math.max(numTrials / 20, 1)).last
+//    println("VaR: " + varFivePercent)
+//
+//    // Kernel density estimation
+//    val domain = Range.Double(20.0, 60.0, .2).toArray
+//    val densities: Array[Double] = KernelDensity.estimate(trialsRdd, 0.25, domain)
+//    val pw = new PrintWriter("densities.csv")
+//    for (point <- domain.zip(densities)) {
+//      pw.println(point._1 + "," + point._2)
+//    }
+//    pw.close()
   }
 
   def trialValues(seed: Long, numTrials: Int, instruments: Seq[Instrument],
-      factorMeans: Array[Double], factorCovariances: Array[Array[Double]]): Seq[Double] = {
+      factorMeans: Array[Double], factorCovariances: Array[Array[Double]]): Array[Array[Double]] = {
     val rand = new MersenneTwister(seed)
     val multivariateNormal = new MultivariateNormalDistribution(rand, factorMeans,
       factorCovariances)
 
-    val trialValues = new Array[Double](numTrials)
+    val trialValues = Array.ofDim[Double](numTrials, 480)
     for (i <- 0 until numTrials) {
-      val trial = multivariateNormal.sample()
-      trialValues(i) = trialValue(trial, instruments)
+      for(j <- 0 until 480){
+        val trial = multivariateNormal.sample()
+        if(j==0){
+          trialValues(i)(j) = 1+trialValue(trial, instruments)
+        }else{
+          trialValues(i)(j) = trialValues(i)(j-1)*(1+trialValue(trial, instruments))
+        }
+      }
     }
     trialValues
   }
